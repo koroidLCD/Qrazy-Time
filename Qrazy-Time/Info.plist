@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb253647580693626</string>
+				<string>fb1513311869462695</string>
 				<string>Qrazy-Time</string>
 			</array>
 		</dict>
@@ -33,9 +33,9 @@
 	<key>FacebookAdvertiserIDCollectionEnabled</key>
 	<true/>
 	<key>FacebookAppID</key>
-	<string>253647580693626</string>
+	<string>1513311869462695</string>
 	<key>FacebookClientToken</key>
-	<string>c3bccb4944c8d11e6d793db5d8e05030</string>
+	<string>5f10bfe22606cd5dfe0926c33908c1e8</string>
 	<key>FacebookDisplayName</key>
 	<string>Qrazy-Time</string>
 	<key>LSRequiresIPhoneOS</key>

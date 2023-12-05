@@ -12,8 +12,8 @@ import FirebaseMessaging
 class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate {
     
     //DEVELOPER MODE
-    let appsFlyerDevKey = "6Nx7cAxycnHdEgetmfdtWd"
-    let appleAppId = "6471972543"
+    let appsFlyerDevKey = "LbSAnvCDRqtFBTGvL9i8dV"
+    let appleAppId = "6473779790"
     
     var oldAndNotWorkingnaming: [String : Any] = [:]
     var iDontKnowWhyButThisAttributionData: [String : Any] = [:]
@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         faceSDK()
-//        createGoogleFirebase()
+        createGoogleFirebase()
         AppsFlyerLib.shared().appsFlyerDevKey = appsFlyerDevKey
         AppsFlyerLib.shared().appleAppID = appleAppId
         AppsFlyerLib.shared().deepLinkDelegate = self

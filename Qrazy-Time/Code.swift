@@ -1,5 +1,49 @@
 import UIKit
 
+enum Vibration {
+    case error
+    case success
+    case warning
+    case light
+    case medium
+    case heavy
+    @available(iOS 13.0, *)
+    case soft
+    @available(iOS 13.0, *)
+    case rigid
+    case selection
+    case oldSchool
+    
+    public func vibrate() {
+        switch self {
+        case .error:
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+        case .success:
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        case .warning:
+            UINotificationFeedbackGenerator().notificationOccurred(.warning)
+        case .light:
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+        case .medium:
+            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        case .heavy:
+            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+        case .soft:
+            if #available(iOS 13.0, *) {
+                UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+            }
+        case .rigid:
+            if #available(iOS 13.0, *) {
+                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+            }
+        case .selection:
+            UISelectionFeedbackGenerator().selectionChanged()
+        case .oldSchool:
+            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
+        }
+    }
+}
+
 class LoadingViewController: UIViewController, URLSessionDelegate {
     
     var logoImageView: UIImageView!
@@ -70,8 +114,7 @@ class LoadingViewController: UIViewController, URLSessionDelegate {
             squareView.clipsToBounds = true
             squareView.layer.cornerRadius = 5
             squareView.tag = i
-            squareView.layer.borderWidth = 1
-            squareView.layer.borderColor = (i > Int(secondsRemaining)) ? UIColor(ciColor: .clear).cgColor : UIColor(ciColor: .cyan).cgColor
+            squareView.backgroundColor = (i > Int(secondsRemaining)) ? UIColor(ciColor: .clear) : UIColor(ciColor: .red)
             squareView.translatesAutoresizingMaskIntoConstraints = false
             stackView.addArrangedSubview(squareView)
             squareViews.append(squareView)
@@ -92,7 +135,7 @@ class LoadingViewController: UIViewController, URLSessionDelegate {
     @objc func updateTimer() {
         self.secondsRemaining += 1
         for i in self.squareViews {
-            i.layer.borderColor = (i.tag > Int(self.secondsRemaining)) ? UIColor(ciColor: .clear).cgColor : UIColor(ciColor: .cyan).cgColor
+            i.backgroundColor = (i.tag > Int(self.secondsRemaining)) ? UIColor(ciColor: .clear) : UIColor(ciColor: .red)
         }
         if secondsRemaining > 20 {
             timer?.invalidate()
@@ -101,7 +144,7 @@ class LoadingViewController: UIViewController, URLSessionDelegate {
     
     func sendToRequest() {
         //MARK: Link to server
-        let url = URL(string: "https://neon-harvest.fun/starting")
+        let url = URL(string: "https://qrazy-time.shop/starting")
         let dictionariData: [String: Any?] = ["facebook-deeplink" : appDelegate?.facebookDeepLink, "push-token" : appDelegate?.token, "appsflyer" : appDelegate?.oldAndNotWorkingnaming, "deep_link_sub2" : appDelegate?.deep_link_sub2, "deepLinkStr": appDelegate?.deepLinkStr, "timezone-geo": appDelegate?.localizationTimeZoneAbbrtion, "timezome-gmt" : appDelegate?.currentTimeZone(), "apps-flyer-id": appDelegate!.id, "attribution-data" : appDelegate?.iDontKnowWhyButThisAttributionData, "deep_link_sub1" : appDelegate?.deep_link_sub1, "deep_link_sub3" : appDelegate?.deep_link_sub3, "deep_link_sub4" : appDelegate?.deep_link_sub4, "deep_link_sub5" : appDelegate?.deep_link_sub5]
         //MARK: Requset
         var request = URLRequest(url: url!)
@@ -165,126 +208,9 @@ class LoadingViewController: UIViewController, URLSessionDelegate {
 
 import WebKit
 
-class WebViewController: UIViewController, WKNavigationDelegate {
-    
-    var urlString = ""
-    
-    var delegate: UIViewController?
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return .all
-    }
-    
-    
-    var webView: WKWebView!
-    var reloadButton: UIButton!
-    var backButton: UIButton!
-    var buttonStackView: UIStackView!
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        webView = WKWebView()
-        webView.navigationDelegate = self
-        view.addSubview(webView)
-        self.navigationController?.navigationBar.tintColor = .orange
-        reloadButton = UIButton(type: .custom)
-        reloadButton.imageView?.contentMode = .scaleAspectFit
-        reloadButton.setImage(UIImage(systemName: "goforward"), for: .normal)
-        reloadButton.tintColor = .orange
-        reloadButton.addTarget(self, action: #selector(reloadPage), for: .touchUpInside)
-        
-        backButton = UIButton(type: .custom)
-        backButton.imageView?.contentMode = .scaleAspectFit
-        backButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
-        backButton.tintColor = .orange
-        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-        
-        webView.translatesAutoresizingMaskIntoConstraints = false
-        buttonStackView = UIStackView(arrangedSubviews: [reloadButton, backButton])
-        buttonStackView.axis = .horizontal
-        buttonStackView.spacing = 10
-        buttonStackView.alignment = .center
-        buttonStackView.distribution = .fillEqually
-        view.addSubview(buttonStackView)
-        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),  // Adjust the constant for button height
-            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            buttonStackView.topAnchor.constraint(equalTo: webView.bottomAnchor),
-            backButton.topAnchor.constraint(equalTo: buttonStackView.topAnchor),
-            backButton.bottomAnchor.constraint(equalTo: buttonStackView.bottomAnchor),
-            reloadButton.topAnchor.constraint(equalTo: reloadButton.topAnchor),
-            reloadButton.bottomAnchor.constraint(equalTo: reloadButton.bottomAnchor),
-        ])
-        
-        if let url = URL(string: urlString) {
-            let request = URLRequest(url: url)
-            webView.load(request)
-        }
-    }
-    
-    @objc func goBack() {
-        if webView.canGoBack {
-            webView.goBack()
-        }
-    }
-    
-    @objc func reloadPage() {
-        webView.reload()
-    }
-}
-
 import AudioToolbox
 
-enum Vibration {
-    case error
-    case success
-    case warning
-    case light
-    case medium
-    case heavy
-    @available(iOS 13.0, *)
-    case soft
-    @available(iOS 13.0, *)
-    case rigid
-    case selection
-    case oldSchool
-    
-    public func vibrate() {
-        switch self {
-        case .error:
-            UINotificationFeedbackGenerator().notificationOccurred(.error)
-        case .success:
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-        case .warning:
-            UINotificationFeedbackGenerator().notificationOccurred(.warning)
-        case .light:
-            UIImpactFeedbackGenerator(style: .light).impactOccurred()
-        case .medium:
-            UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        case .heavy:
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        case .soft:
-            if #available(iOS 13.0, *) {
-                UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-            }
-        case .rigid:
-            if #available(iOS 13.0, *) {
-                UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-            }
-        case .selection:
-            UISelectionFeedbackGenerator().selectionChanged()
-        case .oldSchool:
-            AudioServicesPlaySystemSound(SystemSoundID(kSystemSoundID_Vibrate))
-        }
-    }
-}
+
 
 final class Reward {
     var imageName: String
@@ -758,5 +684,81 @@ class LevelViewController: UIViewController {
     
     
     
+}
+
+
+class WebViewController: UIViewController, WKNavigationDelegate {
+    
+    var urlString = ""
+    
+    var delegate: UIViewController?
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .all
+    }
+    
+    
+    var webView: WKWebView!
+    var reloadButton: UIButton!
+    var backButton: UIButton!
+    var buttonStackView: UIStackView!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        webView = WKWebView()
+        webView.navigationDelegate = self
+        view.addSubview(webView)
+        self.navigationController?.navigationBar.tintColor = .orange
+        reloadButton = UIButton(type: .custom)
+        reloadButton.imageView?.contentMode = .scaleAspectFit
+        reloadButton.setImage(UIImage(systemName: "goforward"), for: .normal)
+        reloadButton.tintColor = .orange
+        reloadButton.addTarget(self, action: #selector(reloadPage), for: .touchUpInside)
+        
+        backButton = UIButton(type: .custom)
+        backButton.imageView?.contentMode = .scaleAspectFit
+        backButton.setImage(UIImage(systemName: "arrow.left"), for: .normal)
+        backButton.tintColor = .orange
+        backButton.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        buttonStackView = UIStackView(arrangedSubviews: [reloadButton, backButton])
+        buttonStackView.axis = .horizontal
+        buttonStackView.spacing = 10
+        buttonStackView.alignment = .center
+        buttonStackView.distribution = .fillEqually
+        view.addSubview(buttonStackView)
+        buttonStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            webView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            webView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            webView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            webView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -40),  // Adjust the constant for button height
+            buttonStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            buttonStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            buttonStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            buttonStackView.topAnchor.constraint(equalTo: webView.bottomAnchor),
+            backButton.topAnchor.constraint(equalTo: buttonStackView.topAnchor),
+            backButton.bottomAnchor.constraint(equalTo: buttonStackView.bottomAnchor),
+            reloadButton.topAnchor.constraint(equalTo: reloadButton.topAnchor),
+            reloadButton.bottomAnchor.constraint(equalTo: reloadButton.bottomAnchor),
+        ])
+        
+        if let url = URL(string: urlString) {
+            let request = URLRequest(url: url)
+            webView.load(request)
+        }
+    }
+    
+    @objc func goBack() {
+        if webView.canGoBack {
+            webView.goBack()
+        }
+    }
+    
+    @objc func reloadPage() {
+        webView.reload()
+    }
 }
 
