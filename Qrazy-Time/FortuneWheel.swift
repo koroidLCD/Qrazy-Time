@@ -10,12 +10,12 @@ struct FortuneSwiftUI: View {
      var players = ["10", "0", "1", "5", "0", "5", "0", "1", "0"]
     
     let colours: [Color] = [
-        Color.color1,
-        Color.color2,
-        Color.color3,
-        Color.color4,
-        Color.color5,
-        Color.color6,
+        Color("color1"),
+        Color("color2"),
+        Color("color3"),
+        Color("color4"),
+        Color("color5"),
+        Color("color6"),
     ]
     
     @State private var isInteractionDisabled = false
