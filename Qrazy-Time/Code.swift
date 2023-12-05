@@ -365,12 +365,12 @@ class RewardsViewController: UIViewController, UICollectionViewDataSource, UICol
         let reward = rewards[indexPath.item]
         
         cell.imageView.image = UIImage(named: reward.imageName)
-        let attributedText = NSAttributedString(string: reward.title, attributes: [NSAttributedString.Key.foregroundColor: UIColor(ciColor: .magenta), NSAttributedString.Key.font: UIFont(name: "GillSans-UltraBold", size: 16)])
+        let attributedText = NSAttributedString(string: reward.title, attributes: [NSAttributedString.Key.foregroundColor: UIColor(ciColor: .yellow), NSAttributedString.Key.font: UIFont(name: "GillSans-UltraBold", size: 16)])
         if !reward.collected {
             cell.imageView.alpha = 0.3
         }
         cell.label.attributedText = attributedText
-        cell.backgroundColor = .cyan
+        cell.backgroundColor = .red
         cell.clipsToBounds = true
         cell.layer.cornerRadius = 20
         return cell
