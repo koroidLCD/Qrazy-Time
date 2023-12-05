@@ -14,6 +14,7 @@
 		0485733A2B17D8D7004BC753 /* Code.swift in Sources */ = {isa = PBXBuildFile; fileRef = 048573392B17D8D7004BC753 /* Code.swift */; };
 		0485733E2B17DC9D004BC753 /* gameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0485733D2B17DC9D004BC753 /* gameViewController.swift */; };
 		048573402B17E85C004BC753 /* FortuneWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0485733F2B17E85C004BC753 /* FortuneWheel.swift */; };
+		04EBA2292B1F2A660026110E /* codemagic.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 04EBA2282B1F2A660026110E /* codemagic.yaml */; };
 		5FE979D55C50D6412F789CB1 /* Pods_Qrazy_Time.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 176CEBF5482C025055E5B37C /* Pods_Qrazy_Time.framework */; };
 /* End PBXBuildFile section */
 
@@ -28,6 +29,7 @@
 		0485733D2B17DC9D004BC753 /* gameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = gameViewController.swift; sourceTree = "<group>"; };
 		0485733F2B17E85C004BC753 /* FortuneWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FortuneWheel.swift; sourceTree = "<group>"; };
 		04EBA2272B1F28150026110E /* Qrazy-Time.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Qrazy-Time.entitlements"; sourceTree = "<group>"; };
+		04EBA2282B1F2A660026110E /* codemagic.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codemagic.yaml; sourceTree = "<group>"; };
 		176CEBF5482C025055E5B37C /* Pods_Qrazy_Time.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Qrazy_Time.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		70B4B299ECCFD656BD95DAF2 /* Pods-Qrazy-Time.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Qrazy-Time.debug.xcconfig"; path = "Target Support Files/Pods-Qrazy-Time/Pods-Qrazy-Time.debug.xcconfig"; sourceTree = "<group>"; };
 		93A408C55E0629B457DCC45A /* Pods-Qrazy-Time.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Qrazy-Time.release.xcconfig"; path = "Target Support Files/Pods-Qrazy-Time/Pods-Qrazy-Time.release.xcconfig"; sourceTree = "<group>"; };
@@ -48,6 +50,7 @@
 		048573162B17D888004BC753 = {
 			isa = PBXGroup;
 			children = (
+				04EBA2282B1F2A660026110E /* codemagic.yaml */,
 				048573212B17D888004BC753 /* Qrazy-Time */,
 				048573202B17D888004BC753 /* Products */,
 				3CA33B5DA769EE8C6BAF0D5F /* Pods */,
@@ -159,6 +162,7 @@
 				0485732E2B17D888004BC753 /* Main.storyboard in Resources */,
 				048573302B17D88A004BC753 /* Assets.xcassets in Resources */,
 				048573332B17D88A004BC753 /* LaunchScreen.storyboard in Resources */,
+				04EBA2292B1F2A660026110E /* codemagic.yaml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
